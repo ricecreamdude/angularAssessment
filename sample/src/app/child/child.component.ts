@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,OnChanges, Input, Output, EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
 import {UserDetails} from '../Models/UserDetails'
+import { Router } from '@angular/router';
 
 
 
@@ -8,12 +9,20 @@ import {UserDetails} from '../Models/UserDetails'
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.scss']
 })
-export class ChildComponent implements OnInit {
+export class ChildComponent implements OnChanges{
 
-  constructor() { }
+  constructor(private router:Router) { }
+
+
+  demoTemplateVar:string="from child component";
+
 
   @Input('userDetails1') userDetails:UserDetails;
   @Output('datafromchild1') datafromchild= new EventEmitter();
+ 
+  ngOnChanges(changes:SimpleChanges){
+   console.log(changes);
+  }
 
   ngOnInit(): void {
 
@@ -21,7 +30,7 @@ export class ChildComponent implements OnInit {
 
   childClick()
   {
-    this.datafromchild.emit("Hey, Child here");
+    this.router.navigate(['dashboard']);
   }
 }
 

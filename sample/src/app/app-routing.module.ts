@@ -6,10 +6,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ParentComponent  } from './parent/parent.component';
 
 
-const routes: Routes = [{path:'employee',component:EmployeeComponent},
+const routes:Routes= [{path:'employee',component:EmployeeComponent},
                         {path:'dashboard',component:DashboardComponent},
                         {path:'',redirectTo:'dashboard',pathMatch:'full'},
-                        {path:'parent',component:ParentComponent ,pathMatch:'full'}];
+                        {path:'parent',component:ParentComponent, pathMatch:'prefix'}]; //localhost:3736/parent/:id/details
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

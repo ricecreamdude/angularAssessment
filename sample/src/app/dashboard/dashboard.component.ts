@@ -1,21 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CovidService } from '../service/covid.service';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit,OnDestroy {
 
-  columns:string[]=["country","Total cases","Total Recovered" ];
+  columns:string[];
   covidSummary:any=[];
   covidSummaryUntouched:any=[];
   searchtxt:string='';
-  constructor(private covidSer:CovidService) { }
+  covidSub:Subscription;
+  constructor(private covidSer:CovidService) {
+    this.columns=["country","Total cases","Total Recovered" ];
+   }
 
   ngOnInit(): void {
-    this.covidSer.getCovidSummary().subscribe(res=>{
+   this.covidSub=  this.covidSer.getCovidSummary().subscribe(
+    res=>{
     this.covidSummaryUntouched=res;
     this.searchchange('');
       res},err=>{console.log(err)});
@@ -31,4 +36,8 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+   ngOnDestroy()
+   {
+     this.covidSub.unsubscribe();
+   }
 }
